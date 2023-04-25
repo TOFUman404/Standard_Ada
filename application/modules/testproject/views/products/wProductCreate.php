@@ -8,6 +8,9 @@
     </div>
     <div class="card-body">
         <form action="<?= base_url('products/create'); ?>" method="post" enctype="multipart/form-data">
+            <label for="name">Code</label>
+            <input type="text" name="oetProductCode" id="oetProductCode" class="form-control" />
+            <br />
             <label for="name">Name</label>
             <input type="text" name="oetProductName" id="oetProductName" class="form-control" />
             <br />

@@ -11,12 +11,12 @@
     <!-- Tempus Dominus Styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
     <!-- Bootstrap CSS -->
-    <link href="<?php echo base_url('assets/css/bootstrap/bootstrap.css');?>" rel="stylesheet">
+    <link href="<?php echo base_url('application/modules/testproject/assets/css/bootstrap/bootstrap.css');?>" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script>
         function imgError(image) {
             image.onerror = "";
-            image.src = "<?php echo base_url('assets/img/default.png') ?>";
+            image.src = "<?php echo base_url('application/modules/testproject/assets/img/default.png') ?>";
             return true;
         }
     </script>

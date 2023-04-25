@@ -39,12 +39,14 @@ class Products_controller extends MX_Controller
         else
         {
             $dataArray = [
-                'name' => $this->input->post_get('oetProductName', true),
-                'price' => $this->input->post_get('oetProductPrice', true),
-                'description' => $this->input->post_get('otaProductDesc', true),
-                'image' => '',
-                'category_id' => (int) $this->input->post_get('ocmProductCategory', true),
-                'created_at' => date('Y-m-d H:i:s'),
+                'FTPrdCode' => $this->input->post_get('oetProductCode', true),
+                'FTPrdName' => $this->input->post_get('oetProductName', true),
+                'FCPrdPrice' => $this->input->post_get('oetProductPrice', true),
+                'FTPrdDescription' => $this->input->post_get('otaProductDesc', true),
+                'FTPrdImage' => '',
+                'FNPrdCatId' => (int) $this->input->post_get('ocmProductCategory', true),
+                'FDPrdCreated_at' => date('Y-m-d H:i:s'),
+                'FDPrdUpdated_at' => date('Y-m-d H:i:s'),
             ];
             $imagePath = 'assets/img/';
             $config['upload_path'] = $imagePath;
@@ -58,7 +60,7 @@ class Products_controller extends MX_Controller
                 $error = array('error' => $this->upload->display_errors());
                 $this->load->view('products/wProductCreate', $error);
             } else {
-                $dataArray['image'] = $this->upload->data()['file_name'];
+                $dataArray['FTPrdImage'] = $this->upload->data()['file_name'];
                 $config['image_library'] = 'gd2';
                 $config['source_image'] = $imagePath . $dataArray['image'];
                 $config['maintain_ratio'] = TRUE;

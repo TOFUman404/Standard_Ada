@@ -1,6 +1,6 @@
 <?php
 
-class Category_controller extends CI_Controller
+class Category_controller extends MX_Controller
 {
 
     public function __construct()

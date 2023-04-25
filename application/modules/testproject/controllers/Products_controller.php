@@ -1,5 +1,5 @@
 <?php
-class Products_controller extends CI_Controller
+class Products_controller extends MX_Controller
 {
     public function __construct()
     {

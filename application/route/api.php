@@ -1,3 +1,3 @@
 <?php
-$route['api/products']  = 'Products_controller/FStCPDTDataList';
-$route['api/categories']  = 'Category_controller/FStCCATDataList';
+$route['api/products']  = 'testproject/Products_controller/FStCPDTDataList';
+$route['api/categories']  = 'testproject/Category_controller/FStCCATDataList';

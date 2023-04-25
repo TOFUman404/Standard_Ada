@@ -1,4 +1,5 @@
-<script src="<?php echo base_url('assets/js/bootstrap/bootstrap.bundle.js');?>"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="<?php echo base_url('application/modules/testproject/assets/js/bootstrap/bootstrap.bundle.js');?>"></script>
 <script>
     function levelColor(level) {
         if(level >= 50) {

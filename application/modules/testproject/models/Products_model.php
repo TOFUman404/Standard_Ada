@@ -44,12 +44,15 @@ class Products_model extends CI_Model
             $query->limit($q['length'], $q['start']);
         }
 
-        if($q['category']){
-            $query->where('TTPMProduct.FNPrdCatId', $q['category']);
+        if($q['search'] != ''){
+            $this->db->group_start();
+            $query->like('TTPMProduct.FTPrdName', $q['search']);
+            $query->or_like('TTPMProduct.FTPrdCode', $q['search']);
+            $this->db->group_end();
         }
 
-        if($q['search'] != ''){
-            $query->like('TTPMProduct.FTPrdName', $q['search']);
+        if($q['category']){
+            $query->where('TTPMProduct.FNPrdCatId', $q['category']);
         }
 
         if($q['dateStart']){

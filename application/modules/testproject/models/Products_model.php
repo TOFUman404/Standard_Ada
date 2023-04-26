@@ -53,11 +53,11 @@ class Products_model extends CI_Model
         }
 
         if($q['dateStart']){
-            $query->where('TTPMProduct.FDPrdUpdated_at >=', $q['dateStart']);
+            $query->where('TTPMProduct.FDPrdUpdated_at >=', $q['dateStart'] . ' 00:00:00');
         }
 
         if ($q['dateEnd']) {
-            $query->where('TTPMProduct.FDPrdUpdated_at <=', $q['dateEnd']);
+            $query->where('TTPMProduct.FDPrdUpdated_at <=', $q['dateEnd'] . ' 23:59:59');
         }
 
         if($q['order']){

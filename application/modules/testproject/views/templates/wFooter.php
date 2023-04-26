@@ -1,26 +1,29 @@
+</div>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 <script src="<?php echo base_url('application/modules/testproject/assets/js/bootstrap/bootstrap.bundle.js');?>"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+<script src="<?php echo base_url('application/modules/testproject/assets/js/daterangepicker.js');?>"></script>
 <script>
     function levelColor(level) {
-        if(level >= 50) {
+        if(level <= 50) {
             return 'green';
-        } else if(level >= 100) {
+        } else if(level > 50 && level <= 100) {
             return 'yellow';
-        } else if(level >= 150) {
+        } else if(level > 100 && level <= 150) {
             return 'orange';
-        } else if(level >= 200) {
+        } else if(level > 150 && level <= 200) {
             return 'red';
-        } else if(level >= 300) {
+        } else if(level > 200 && level <= 300) {
             return 'purple';
         } else {
             return 'maroon';
         }
     }
     $(document).ready(function () {
-       fetch('https://api.waqi.info/feed/@5773/?token=32befd08e264a299ffc5f9b6ccb792d75c8ad092',{
-              method: 'GET',
-              cache: 'no-cache',
-            })
+        fetch('https://api.waqi.info/feed/@5773/?token=32befd08e264a299ffc5f9b6ccb792d75c8ad092',{
+            method: 'GET',
+            cache: 'no-cache',
+        })
             .then(response => response.json())
             .then(data => {
                 $('#ospLocation').html(data.data.city.name);
@@ -29,6 +32,5 @@
             });
     });
 </script>
-</div>
 </body>
 </html>

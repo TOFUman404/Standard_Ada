@@ -18,12 +18,15 @@
                     <select name="ocmCategorySearch" id="ocmCategorySearch" class="form-select">
                     </select>
                 </div>
-                <div class="col-4">
-                    <div class="input-group">
-                        <input type="date" class="form-control" name="odpStart" id="odpStart" placeholder="วันที่เริ่มต้น" aria-label="วันที่เริ่มต้น">
-                        <span class="input-group-text">-</span>
-                        <input type="date" class="form-control" name="odpEnd" id="odpEnd" placeholder="วันที่สิ้นสุด" aria-label="วันที่สิ้นสุด">
-                    </div>
+                <div class="col-3">
+                    <input type="text" name="odpDatePick" id="odpDatePick" class="form-control" autocomplete="off">
+                    <input type="date" class="form-control" name="odpStart" id="odpStart" placeholder="วันที่เริ่มต้น" aria-label="วันที่เริ่มต้น" hidden>
+                    <input type="date" class="form-control" name="odpEnd" id="odpEnd" placeholder="วันที่สิ้นสุด" aria-label="วันที่สิ้นสุด" hidden>
+<!--                    <div class="input-group">-->
+<!--                        <input type="date" class="form-control" name="odpStart" id="odpStart" placeholder="วันที่เริ่มต้น" aria-label="วันที่เริ่มต้น">-->
+<!--                        <span class="input-group-text">-</span>-->
+<!--                        <input type="date" class="form-control" name="odpEnd" id="odpEnd" placeholder="วันที่สิ้นสุด" aria-label="วันที่สิ้นสุด">-->
+<!--                    </div>-->
                 </div>
                 <div class="col-1">
                     <button class="btn btn-primary" type="button" id="obtSearch">ค้นหา</button>

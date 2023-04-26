@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@eonasdan/tempus-dominus@6.4.4/dist/css/tempus-dominus.min.css" crossorigin="anonymous">
     <!-- Bootstrap CSS -->
     <link href="<?php echo base_url('application/modules/testproject/assets/css/bootstrap/bootstrap.css');?>" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <link href="<?php echo base_url('application/modules/testproject/assets/css/daterangepicker.css');?>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <script src="<?php echo base_url('application/modules/testproject/assets/js/moment.js');?>"></script>
     <script>
         function imgError(image) {
             image.onerror = "";

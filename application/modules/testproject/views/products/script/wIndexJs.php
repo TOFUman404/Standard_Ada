@@ -79,7 +79,7 @@
                     searchable: false,
                     type: "date",
                     render: function(data, type, row) {
-                        return dayjs(data).format('DD/MM/YYYY');
+                        return moment(data).format('DD/MM/YYYY');
                     }
                 },
                 {
@@ -109,8 +109,8 @@
 
     $('#obtSearch').on('click', function() {
         searchParams.searchInput = $('#oetSearch').val();
-        searchParams.searchDateStart = $('#odpStart').val();
         searchParams.searchCategory = +$('#ocmCategorySearch').val();
+        searchParams.searchDateStart = $('#odpStart').val();
         searchParams.searchDateEnd = $('#odpEnd').val();
         renderDatatable(searchParams);
     })
@@ -126,5 +126,47 @@
             })
             .catch(error => console.error(error))
         renderDatatable({});
+        $('#odpDatePick').daterangepicker({
+            "locale": {
+                "format": "DD/MM/YYYY",
+                "applyLabel": "ตกลง",
+                "cancelLabel": "ล้าง",
+                "daysOfWeek": [
+                    "อา",
+                    "จ",
+                    "อ",
+                    "พ",
+                    "พฤ",
+                    "ศ",
+                    "ส"
+                ],
+                "monthNames": [
+                    "มกราคม",
+                    "กุมภาพันธ์",
+                    "มีนาคม",
+                    "เมษายน",
+                    "พฤษภาคม",
+                    "มิถุนายน",
+                    "กรกฎาคม",
+                    "สิงหาคม",
+                    "กันยายน",
+                    "ตุลาคม",
+                    "พฤศจิกายน",
+                    "ธันวาคม"
+                ],
+            }
+        });
+        $('#odpDatePick').val('');
+        $('#odpDatePick').on('apply.daterangepicker', function(ev, picker) {
+            $('#odpStart').val(picker.startDate.format('YYYY-MM-DD'));
+            $('#odpEnd').val(picker.endDate.format('YYYY-MM-DD'));
+        });
+        $('#odpDatePick').on('cancel.daterangepicker', function(ev, picker) {
+            picker.setStartDate({});
+            picker.setEndDate({});
+            $(this).val('');
+            $('#odpStart').val('');
+            $('#odpStart').val('');
+        });
     });
 </script>

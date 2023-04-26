@@ -13,9 +13,7 @@ class Products_controller extends MX_Controller
         $data['products'] = $this->products_model->FSaMPDTGetProducts();
         $data['title'] = 'Products archive';
         $this->load->view('templates/wHeader', $data);
-        $this->load->view('products/script/wIndexHeader');
         $this->load->view('products/wProductList', $data);
-        $this->load->view('products/script/wIndexFooter');
         $this->load->view('templates/wFooter');
         $this->load->view('products/script/wIndexJs');
     }
@@ -156,7 +154,7 @@ class Products_controller extends MX_Controller
                 'FTPrdName' => $r->FTPrdName,
                 'FCPrdPrice' => $r->FCPrdPrice,
                 'FTPrdDescription' => $r->FTPrdDescription,
-                'FTPrdImage' => '<img src="' . base_url('assets/img/' . $r->FTPrdImage) . '" width="100" height="100" onerror="imgError(this);" />',
+                'FTPrdImage' => '<img src="' . base_url('application/modules/testproject/assets/img/' . $r->FTPrdImage) . '" width="100" height="100" onerror="imgError(this);" />',
                 'FNCatName' => $r->FNCatName,
                 'FDPrdUpdated_at' => $r->FDPrdUpdated_at,
                 'actions' => '<a href="' . site_url('products/edit/' . $r->FNPrdId) . '" class="btn btn-primary btn-sm">Edit</a>

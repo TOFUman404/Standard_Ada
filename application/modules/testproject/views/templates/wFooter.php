@@ -4,7 +4,7 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script src="<?php echo base_url('application/modules/testproject/assets/js/daterangepicker.js');?>"></script>
 <script>
-    function levelColor(level) {
+    function JSxPDTLevelColor(level) {
         if(level <= 50) {
             return 'green';
         } else if(level > 50 && level <= 100) {
@@ -27,8 +27,8 @@
             .then(response => response.json())
             .then(data => {
                 $('#ospLocation').html(data.data.city.name);
-                $('#ospPM10').html(`PM10 : <span style="color:${levelColor(data.data.iaqi.pm10.v)}">${data.data.iaqi.pm10.v}</span>`);
-                $('#ospPM25').html(`PM2.5 : <span style="color:${levelColor(data.data.iaqi.pm25.v)}">${data.data.iaqi.pm25.v}</span>`);
+                $('#ospPM10').html(`PM10 : <span style="color:${JSxPDTLevelColor(data.data.iaqi.pm10.v)}">${data.data.iaqi.pm10.v}</span>`);
+                $('#ospPM25').html(`PM2.5 : <span style="color:${JSxPDTLevelColor(data.data.iaqi.pm25.v)}">${data.data.iaqi.pm25.v}</span>`);
             });
     });
 </script>

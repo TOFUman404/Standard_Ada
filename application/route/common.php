@@ -5,6 +5,8 @@ $route['products/create']  = 'testproject/Products_controller/FSxCPDTAddData';
 $route['products/edit/(:num)']  = 'testproject/Products_controller/FSxCPDTEditData/$1';
 $route['products/delete/(:num)']  = 'testproject/Products_controller/FSxCPDTDeleteData/$1';
 
+$route['changeLanguage']['POST']  = 'testproject/Main_controller/FStCMANChangeLng';
+
 
 //API
 include_once(APPPATH . 'route/api.php');

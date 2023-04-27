@@ -27,7 +27,7 @@
             }
         },
     }
-    function renderDatatable(data) {
+    function JSPDTRenderDatatable(data) {
         $('#otbProducts').DataTable({
             processing: true,
             serverSide: true,
@@ -104,7 +104,7 @@
 
     $('#ocmCategorySearch').on('change', function() {
         searchParams.searchCategory = +$(this).val();
-        renderDatatable(searchParams);
+        JSPDTRenderDatatable(searchParams);
     })
 
     $('#obtSearch').on('click', function() {
@@ -119,13 +119,13 @@
         fetch('<?= base_url('api/categories') ?>')
             .then(response => response.json())
             .then(data => {
-                $('#ocmCategorySearch').append(`<option value="" selected>หมวดหมู่ทั้งหมด</option>`)
+                $('#ocmCategorySearch').append(`<option value="" selected><?= $lang['tSearch_category'] ?></option>`)
                 data.forEach(category => {
                     $('#ocmCategorySearch').append(`<option value="${category.id}">${category.name}</option>`)
                 })
             })
             .catch(error => console.error(error))
-        renderDatatable({});
+        JSPDTRenderDatatable({});
         $('#odpDatePick').daterangepicker({
             "locale": {
                 "format": "DD/MM/YYYY",

@@ -10,6 +10,14 @@ class Products_controller extends MX_Controller
     }
     public function FSxCPDTDataListview()
     {
+        $this->load->helper('language');
+        $tUserLng = $this->session->get_userdata('language');
+        if (isset($tUserLng['language'])) {
+            $this->lang->load('products/main_lang', $tUserLng['language']);
+        } else {
+            $this->lang->load('products/main_lang', 'en');
+        }
+        $data['lang'] = $this->lang->language;
         $data['products'] = $this->products_model->FSaMPDTGetProducts();
         $data['title'] = 'Products archive';
         $this->load->view('templates/wHeader', $data);
@@ -23,31 +31,36 @@ class Products_controller extends MX_Controller
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
         $this->load->library('image_lib');
-        $data['title'] = 'Add a product';
+        if (isset($tUserLng['language'])) {
+            $this->lang->load('products/form_lang', $tUserLng['language']);
+        } else {
+            $this->lang->load('products/form_lang', 'en');
+        }
+        $aData['lang'] = $this->lang->language;
+        $aData['title'] = 'Add a product';
         $this->form_validation->set_rules('oetProductName', 'oetProductName', 'required');
         $this->form_validation->set_rules('oetProductPrice', 'oetProductPrice', 'required');
-        $this->form_validation->set_rules('otaProductDesc', 'otaProductDesc', 'required');
-        $data['categories'] = $this->category_model->FSaMCATGetCategory();
+        $aData['categories'] = $this->category_model->FSaMCATGetCategory();
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/wHeader', $data);
+            $this->load->view('templates/wHeader', $aData);
             $this->load->view('products/wProductCreate');
             $this->load->view('templates/wFooter');
         }
         else
         {
-            $dataArray = [
+            $aDataArray = [
                 'FTPrdCode' => $this->input->post_get('oetProductCode', true),
                 'FTPrdName' => $this->input->post_get('oetProductName', true),
                 'FCPrdPrice' => $this->input->post_get('oetProductPrice', true),
-                'FTPrdDescription' => $this->input->post_get('otaProductDesc', true),
+                'FTPrdDescription' => $this->input->post_get('otaProductDesc', true) ?? '',
                 'FTPrdImage' => '',
                 'FNPrdCatId' => (int) $this->input->post_get('ocmProductCategory', true),
                 'FDPrdCreated_at' => date('Y-m-d H:i:s'),
                 'FDPrdUpdated_at' => date('Y-m-d H:i:s'),
             ];
-            $imagePath = 'assets/img/';
-            $config['upload_path'] = $imagePath;
+            $tImagePath = 'application/modules/testproject/assets/img/';
+            $config['upload_path'] = $tImagePath;
             $config['allowed_types'] = 'gif|jpg|png';
             $config['encrypt_name'] = TRUE;
 //            $config['max_size'] = 100;
@@ -55,12 +68,12 @@ class Products_controller extends MX_Controller
 //            $config['max_height'] = 768;
             $this->load->library('upload', $config);
             if (!$this->upload->do_upload('oflProductImage')) {
-                $error = array('error' => $this->upload->display_errors());
-                $this->load->view('products/wProductCreate', $error);
+                $aData['error'] = array('error' => $this->upload->display_errors());
+                $this->load->view('products/wProductCreate', $aData);
             } else {
-                $dataArray['FTPrdImage'] = $this->upload->data()['file_name'];
+                $aDataArray['FTPrdImage'] = $this->upload->data()['file_name'];
                 $config['image_library'] = 'gd2';
-                $config['source_image'] = $imagePath . $dataArray['image'];
+                $config['source_image'] = $tImagePath . $aDataArray['FTPrdImage'];
                 $config['maintain_ratio'] = TRUE;
                 $config['width'] = 200;
                 $this->image_lib->initialize($config);
@@ -68,7 +81,7 @@ class Products_controller extends MX_Controller
                     echo $this->image_lib->display_errors();
                 }
             }
-            $this->products_model->FSbMPDTSetProducts($dataArray);
+            $this->products_model->FSbMPDTSetProducts($aDataArray);
             redirect('/products', 'refresh');
         }
     }
@@ -77,29 +90,36 @@ class Products_controller extends MX_Controller
     {
         $this->load->helper(array('form', 'url'));
         $this->load->library('form_validation');
-        $data['title'] = 'Edit a product';
-        $data['product'] = $this->products_model->FSaMPDTGetProducts($id);
-        $data['categories'] = $this->category_model->FSaMCATGetCategory();
+        if (isset($tUserLng['language'])) {
+            $this->lang->load('products/form_lang', $tUserLng['language']);
+        } else {
+            $this->lang->load('products/form_lang', 'en');
+        }
+        $aData['lang'] = $this->lang->language;
+        $aData['title'] = 'Edit a product';
+        $aData['product'] = $this->products_model->FSaMPDTGetProducts($id);
+        $aData['categories'] = $this->category_model->FSaMCATGetCategory();
         $this->form_validation->set_rules('oetProductName', 'oetProductName', 'required');
         $this->form_validation->set_rules('oetProductPrice', 'oetProductPrice', 'required');
-        $this->form_validation->set_rules('otaProductDesc', 'otaProductDesc', 'required');
+//        $this->form_validation->set_rules('otaProductDesc', 'otaProductDesc', 'required');
         if ($this->form_validation->run() === FALSE)
         {
-            $this->load->view('templates/wHeader', $data);
-            $this->load->view('products/wProductEdit', $data);
+            $this->load->view('templates/wHeader', $aData);
+            $this->load->view('products/wProductEdit', $aData);
             $this->load->view('templates/wFooter');
         }
         else {
-            $dataArray = [
-                'name' => $this->input->post_get('oetProductName', true) ?? $data['product']['name'],
-                'price' => $this->input->post_get('oetProductPrice', true) ?? $data['product']['price'],
-                'description' => $this->input->post_get('otaProductDesc', true) ?? $data['product']['description'],
-                'image' => $data['product']['image'],
-                'category_id' => $this->input->post_get('ocmProductCategory', true) ?? $data['product']['category_id'],
-                'updated_at' => date('Y-m-d H:i:s'),
+            $aDataArray = [
+                'FTPrdCode' => $this->input->post_get('oetProductCode', true) ?? $aData['product']['FTPrdCode'],
+                'FTPrdName' => $this->input->post_get('oetProductName', true) ?? $aData['product']['FTPrdName'],
+                'FCPrdPrice' => $this->input->post_get('oetProductPrice', true) ?? $aData['product']['FCPrdPrice'],
+                'FTPrdDescription' => $this->input->post_get('otaProductDesc', true) ?? $aData['product']['FTPrdDescription'],
+                'FTPrdImage' => $aData['product']['FTPrdImage'],
+                'FNPrdCatId' => $this->input->post_get('ocmProductCategory', true) ?? $aData['product']['FNPrdCatId'],
+                'FDPrdUpdated_at' => date('Y-m-d H:i:s'),
             ];
-            $imagePath = 'assets/img/';
-            $config['upload_path'] = $imagePath;
+            $tImagePath = 'application/modules/testproject/assets/img/';
+            $config['upload_path'] = $tImagePath;
             $config['allowed_types'] = 'gif|jpg|png';
             $config['encrypt_name'] = TRUE;
 //            $config['max_size'] = 100;
@@ -110,10 +130,10 @@ class Products_controller extends MX_Controller
                 $error = array('error' => $this->upload->display_errors());
                 $this->load->view('products/wProductEdit', $error);
             } else {
-                $dataArray['image'] = $this->upload->data()['file_name'];
+                $aDataArray['image'] = $this->upload->data()['file_name'];
             }
-            $this->products_model->FSbMPDTPatchProducts($id, $dataArray);
-            redirect('/wProductList', 'refresh');
+            $this->products_model->FSbMPDTPatchProducts($id, $aDataArray);
+            redirect('/products', 'refresh');
         }
     }
 
@@ -121,11 +141,11 @@ class Products_controller extends MX_Controller
     {
         $product = $this->products_model->FSaMPDTGetProducts($id);
         $this->products_model->FSbMPDTDeleteProducts($id);
-        $imagePath = 'assets/img/';
-        if(file_exists($imagePath.$product['image'])){
-            unlink($imagePath.$product['image']);
+        $tImagePath = 'assets/img/';
+        if(file_exists($tImagePath.$product['image'])){
+            unlink($tImagePath.$product['image']);
         }
-        redirect('/wProductList', 'refresh');
+        redirect('/products', 'refresh');
     }
 
     public function FStCPDTDataList()

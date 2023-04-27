@@ -21,6 +21,21 @@
             image.src = "<?php echo base_url('application/modules/testproject/assets/img/default.png') ?>";
             return true;
         }
+        function JSxPDTChangeLanguage(lang) {
+            $.ajax({
+                url: "<?php echo base_url('/changeLanguage') ?>",
+                type: "POST",
+                data: {
+                    tLng: lang
+                },
+                success: function (data) {
+                    if (data.status == 'success')
+                    {
+                        location.reload();
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -29,28 +44,36 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="<?php echo base_url('/products') ?>">Main</a>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?php base_url('/products') ?>">Product</a>
-                </li>
+                <form class="d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="JSxPDTChangeLanguage('en')">EN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link">|</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"onclick="JSxPDTChangeLanguage('th')" >TH</a>
+                    </li>
+                </form>
             </ul>
         </div>
     </div>
 </nav>
 <div class="container pb-4">
     <div class="row">
-        <div class="card">
+        <div class="card bg-dark">
             <div class="card-body">
                 <div class="row d-flex justify-content-center">
-                    <div class="col-3 text-center">
+                    <div class="col-3 text-center text-white">
                         <span id="ospLocation"></span>
                     </div>
-                    <div class="col-3 text-center">
+                    <div class="col-3 text-center text-white">
                         <span id="ospPM10"></span>
                     </div>
-                    <div class="col-3 text-center">
+                    <div class="col-3 text-center text-white">
                         <span id="ospPM25"></span>
                     </div>
                 </div>

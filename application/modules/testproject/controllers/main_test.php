@@ -5,6 +5,6 @@ class main_test extends test {
         echo $this->getHello();
         echo $this->public['hello'];
         echo $this->protected['hello'];
-        echo $this->private['hello'];
+//        echo $this->private['hello'];
     }
 }

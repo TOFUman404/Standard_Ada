@@ -2,26 +2,26 @@
     <div class="card-header">
         <div class="d-flex align-items-center pt-2 pb-2">
             <div class="d-flex align-items-center">
-                <?= $title ?>
+                <?= $lang['tHeader_title_add'] ?>
             </div>
         </div>
     </div>
     <div class="card-body">
         <form action="<?= base_url('products/create'); ?>" method="post" enctype="multipart/form-data">
-            <label for="name">Code</label>
-            <input type="text" name="oetProductCode" id="oetProductCode" class="form-control" />
+            <label for="name"><?= $lang['tProduct_code'] ?></label>
+            <input type="text" name="oetProductCode" id="oetProductCode" class="form-control" required />
             <br />
-            <label for="name">Name</label>
-            <input type="text" name="oetProductName" id="oetProductName" class="form-control" />
+            <label for="name"><?= $lang['tProduct_name'] ?></label>
+            <input type="text" name="oetProductName" id="oetProductName" class="form-control" required />
             <br />
-            <label for="price">Price</label>
-            <input type="number" name="oetProductPrice" id="oetProductPrice" class="form-control" />
+            <label for="price"><?= $lang['tProduct_price'] ?></label>
+            <input type="number" step="0.01" name="oetProductPrice" id="oetProductPrice" class="form-control" required />
             <br />
-            <label for="description">Description</label>
+            <label for="description"><?= $lang['tProduct_description'] ?></label>
             <textarea name="otaProductDesc" id="otaProductDesc" class="form-control"></textarea>
             <br />
-            <label for="category">Category</label>
-            <select name="ocmProductCategory" id="ocmProductCategory" class="form-control">
+            <label for="category"><?= $lang['tProduct_category'] ?></label>
+            <select name="ocmProductCategory" id="ocmProductCategory" class="form-control" required>
                 <?php
                 foreach ($categories as $category) {
                     echo '<option value="' . $category['id'] . '">' . $category['name'] . '</option>';
@@ -31,7 +31,7 @@
             <br />
             <input type="file" name="oflProductImage" size="20" />
             <br /><br />
-            <input type="submit" value="Save" />
+            <input type="submit" value="<?= $lang['tSave'] ?>" />
         </form>
     </div>
 </div>

@@ -7,20 +7,20 @@ class Category_model extends CI_Model
         $this->load->database();
     }
 
-    public function FSaMCATGetCategory($id = FALSE)
+    public function FSaMCATGetCategory($pId = FALSE)
     {
-        if ($id === FALSE) {
-            $query = $this->db->select('FNCatId as id , FNCatName as name')
+        if ($pId === FALSE) {
+            $oQuery = $this->db->select('FNCatId as id , FNCatName as name')
                                 ->from('TTPMCategory')
                                 ->get();
-            return $query->result_array();
+            return $oQuery->result_array();
         }
 
-        $query = $this->db->select('FNCatId as id , FNCatName as name')
+        $oQuery = $this->db->select('FNCatId as id , FNCatName as name')
                             ->from('TTPMCategory')
-                            ->where('FNCatId', $id)
+                            ->where('FNCatId', $pId)
                             ->get();
-        return $query->row_array();
+        return $oQuery->row_array();
     }
 
 //    public function set_category($data)

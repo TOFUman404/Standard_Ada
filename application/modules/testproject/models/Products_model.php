@@ -7,78 +7,78 @@ class Products_model extends CI_Model
         $this->load->database();
     }
 
-    public function FSaMPDTGetProducts($id = FALSE)
+    public function FSaMPDTGetProducts($pId = FALSE)
     {
-        if ($id === FALSE) {
-            $query = $this->db->get('TTPMProduct');
-            return $query->result_array();
+        if ($pId === FALSE) {
+            $oQuery = $this->db->get('TTPMProduct');
+            return $oQuery->result_array();
         }
 
-        $query = $this->db->get_where('TTPMProduct', array('FNPrdId' => $id));
-        return $query->row_array();
+        $oQuery = $this->db->get_where('TTPMProduct', array('FNPrdId' => $pId));
+        return $oQuery->row_array();
     }
-    public function FSbMPDTSetProducts($data)
+    public function FSbMPDTSetProducts($pData)
     {
-        $this->db->insert('TTPMProduct', $data);
+        $this->db->insert('TTPMProduct', $pData);
         return ($this->db->affected_rows() != 1) ? false : true;
     }
-    public function FSbMPDTPatchProducts($id,$data)
+    public function FSbMPDTPatchProducts($pId,$pData)
     {
-        $this->db->where('FNPrdId', $id);
-        $this->db->update('TTPMProduct', $data);
+        $this->db->where('FNPrdId', $pId);
+        $this->db->update('TTPMProduct', $pData);
         return ($this->db->affected_rows() != 1) ? false : true;
     }
-    public function FSbMPDTDeleteProducts($id)
+    public function FSbMPDTDeleteProducts($pId)
     {
-        $this->db->where('FNPrdId', $id);
+        $this->db->where('FNPrdId', $pId);
         $this->db->delete('TTPMProduct');
         return ($this->db->affected_rows() != 1) ? false : true;
     }
-    public function FSoMPDTGetProductsListQuery($q = FALSE)
+    private function FSoMPDTGetProductsListQuery($pQuery = FALSE)
     {
-        $query = $this->db->select('TTPMProduct.FNPrdId, TTPMProduct.FTPrdCode, TTPMProduct.FTPrdName, TTPMProduct.FCPrdPrice, TTPMProduct.FTPrdImage, TTPMProduct.FTPrdDescription, TTPMProduct.FDPrdUpdated_at, TTPMCategory.FNCatName')
+        $oQuery = $this->db->select('TTPMProduct.FNPrdId, TTPMProduct.FTPrdCode, TTPMProduct.FTPrdName, TTPMProduct.FCPrdPrice, TTPMProduct.FTPrdImage, TTPMProduct.FTPrdDescription, TTPMProduct.FDPrdUpdated_at, TTPMCategory.FNCatName')
             ->from('TTPMProduct')
             ->join('TTPMCategory', 'TTPMCategory.FNCatId = TTPMProduct.FNPrdCatId', 'left');
 
-        if($q['length'] != -1){
-            $query->limit($q['length'], $q['start']);
+        if($pQuery['length'] != -1){
+            $oQuery->limit($pQuery['length'], $pQuery['start']);
         }
 
-        if($q['search'] != ''){
+        if($pQuery['search'] != ''){
             $this->db->group_start();
-            $query->like('TTPMProduct.FTPrdName', $q['search']);
-            $query->or_like('TTPMProduct.FTPrdCode', $q['search']);
+            $oQuery->like('TTPMProduct.FTPrdName', $pQuery['search']);
+            $oQuery->or_like('TTPMProduct.FTPrdCode', $pQuery['search']);
             $this->db->group_end();
         }
 
-        if($q['category']){
-            $query->where('TTPMProduct.FNPrdCatId', $q['category']);
+        if($pQuery['category']){
+            $oQuery->where('TTPMProduct.FNPrdCatId', $pQuery['category']);
         }
 
-        if($q['dateStart']){
-            $query->where('TTPMProduct.FDPrdUpdated_at >=', $q['dateStart'] . ' 00:00:00');
+        if($pQuery['dateStart']){
+            $oQuery->where('TTPMProduct.FDPrdUpdated_at >=', $pQuery['dateStart'] . ' 00:00:00');
         }
 
-        if ($q['dateEnd']) {
-            $query->where('TTPMProduct.FDPrdUpdated_at <=', $q['dateEnd'] . ' 23:59:59');
+        if ($pQuery['dateEnd']) {
+            $oQuery->where('TTPMProduct.FDPrdUpdated_at <=', $pQuery['dateEnd'] . ' 23:59:59');
         }
 
-        if($q['order']){
-            $query->order_by($q['order']['column'], $q['order']['dir']);
+        if($pQuery['order']){
+            $oQuery->order_by($pQuery['order']['column'], $pQuery['order']['dir']);
         }
 
-            return $query;
+            return $oQuery;
     }
 
-    public function FSoMPDTGetProductsList($q = FALSE)
+    public function FSoMPDTGetProductsList($pQuery = FALSE)
     {
-        return $this->FSoMPDTGetProductsListQuery($q)->get();
+        return $this->FSoMPDTGetProductsListQuery($pQuery)->get();
     }
 
-    public function FSoMPDTGetAllPorductsCount($q)
+    public function FSoMPDTGetAllPorductsCount($pQuery): int
     {
-        $q['length'] = -1;
-        $this->FSoMPDTGetProductsListQuery($q);
+        $pQuery['length'] = -1;
+        $this->FSoMPDTGetProductsListQuery($pQuery);
         return $this->db->count_all_results();
     }
 }

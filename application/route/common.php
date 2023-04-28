@@ -8,5 +8,8 @@ $route['products/delete/(:num)']  = 'testproject/Products_controller/FSxCPDTDele
 $route['changeLanguage']['POST']  = 'testproject/Main_controller/FStCMANChangeLng';
 
 
+$route['test'] = 'testproject/main_test/test_main';
+
+
 //API
 include_once(APPPATH . 'route/api.php');

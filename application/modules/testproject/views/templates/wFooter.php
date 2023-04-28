@@ -19,18 +19,23 @@
             return 'maroon';
         }
     }
-    $(document).ready(function () {
-        fetch('https://api.waqi.info/feed/@5773/?token=32befd08e264a299ffc5f9b6ccb792d75c8ad092',{
+    $(document).ready(async function () {
+        const oData = await JSxPDTLoadQI();
+        if ( oData.status ) {
+            $('#ospLocation').html(oData.data.city.name);
+            $('#ospPM10').html(`PM10 : <span style="color:${JSxPDTLevelColor(oData.data.iaqi.pm10.v)}">${oData.data.iaqi.pm10.v}</span>`);
+            $('#ospPM25').html(`PM2.5 : <span style="color:${JSxPDTLevelColor(oData.data.iaqi.pm25.v)}">${oData.data.iaqi.pm25.v}</span>`);
+        }
+    });
+
+    async function JSxPDTLoadQI() {
+        const oResponse = await fetch('https://api.waqi.info/feed/@5773/?token=32befd08e264a299ffc5f9b6ccb792d75c8ad092',{
             method: 'GET',
             cache: 'no-cache',
         })
-            .then(response => response.json())
-            .then(data => {
-                $('#ospLocation').html(data.data.city.name);
-                $('#ospPM10').html(`PM10 : <span style="color:${JSxPDTLevelColor(data.data.iaqi.pm10.v)}">${data.data.iaqi.pm10.v}</span>`);
-                $('#ospPM25').html(`PM2.5 : <span style="color:${JSxPDTLevelColor(data.data.iaqi.pm25.v)}">${data.data.iaqi.pm25.v}</span>`);
-            });
-    });
+            .then(response => response.json());
+        return oResponse;
+    }
 </script>
 </body>
 </html>

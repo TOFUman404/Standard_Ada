@@ -12,10 +12,10 @@ class Category_controller extends MX_Controller
 
     public function FStCCATDataList()
     {
-        $data['categories'] = $this->category_model->FSaMCATGetCategory();
+        $aData['categories'] = $this->category_model->FSaMCATGetCategory();
         return $this->output
             ->set_content_type('application/json')
             ->set_status_header(200)
-            ->set_output(json_encode($data['categories']));
+            ->set_output(json_encode($aData['categories']));
     }
 }

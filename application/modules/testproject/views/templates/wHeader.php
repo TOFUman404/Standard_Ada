@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
     <script src="<?php echo base_url('application/modules/testproject/assets/js/moment.js');?>"></script>
     <script>
-        function imgError(image) {
+        function JSCNTPJimgError(image) {
             image.onerror = "";
             image.src = "<?php echo base_url('application/modules/testproject/assets/img/default.png') ?>";
             return true;

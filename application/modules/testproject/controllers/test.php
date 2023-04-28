@@ -1,20 +1,25 @@
 <?php
+// This Controller for test
+class test extends MX_Controller {
 
-class test {
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-    public $public = [
+    public $isPublic = [
         'hello' => 'public Hello',
         'world' => 'public World',
         'foo' => 'public Foo',
     ];
 
-    private $private = [
+    private $isPrivate = [
         'hello' => 'private Hello',
         'world' => 'private World',
         'foo' => 'private Foo',
     ];
 
-    protected $protected = [
+    protected $isProtected = [
         'hello' => 'protected Hello',
         'world' => 'protected World',
         'foo' => 'protected Foo',
@@ -33,4 +38,23 @@ class test {
         return 'Foo';
     }
 
+    public function ObjName(String $array ,Int $second): String {
+        return $first . ' ' . $second;
+    }
+
+}
+
+class test2 extends MX_Controller {
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+//    public function getHello2() {
+//        return 'Hello 2';
+//    }
+
+    protected function getWorld2() {
+        return 'World 2';
+    }
 }

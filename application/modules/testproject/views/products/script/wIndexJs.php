@@ -1,5 +1,5 @@
 <script>
-    var default_options_tempus = {
+    let default_options_tempus = {
         localization: {
             dayViewHeaderFormat: {
                 month: 'long',
@@ -112,7 +112,7 @@
         searchParams.searchCategory = +$('#ocmCategorySearch').val();
         searchParams.searchDateStart = $('#odpStart').val();
         searchParams.searchDateEnd = $('#odpEnd').val();
-        renderDatatable(searchParams);
+        JSPDTRenderDatatable(searchParams);
     })
 
     $(document).ready(function() {

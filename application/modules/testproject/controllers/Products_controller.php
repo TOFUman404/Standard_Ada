@@ -10,18 +10,17 @@ class Products_controller extends MX_Controller
     }
     public function FSxCPDTDataListview()
     {
-        $this->load->helper('language');
         $tUserLng = $this->session->get_userdata('language');
         if (isset($tUserLng['language'])) {
             $this->lang->load('products/main_lang', $tUserLng['language']);
         } else {
             $this->lang->load('products/main_lang', 'en');
         }
-        $data['lang'] = $this->lang->language;
-        $data['products'] = $this->products_model->FSaMPDTGetProducts();
-        $data['title'] = 'Products archive';
-        $this->load->view('templates/wHeader', $data);
-        $this->load->view('products/wProductList', $data);
+        $aData['lang'] = $this->lang->language;
+        $aData['products'] = $this->products_model->FSaMPDTGetProducts();
+        $aData['title'] = 'Products archive';
+        $this->load->view('templates/wHeader', $aData);
+        $this->load->view('products/wProductList', $aData);
         $this->load->view('templates/wFooter');
         $this->load->view('products/script/wIndexJs');
     }
@@ -60,23 +59,23 @@ class Products_controller extends MX_Controller
                 'FDPrdUpdated_at' => date('Y-m-d H:i:s'),
             ];
             $tImagePath = 'application/modules/testproject/assets/img/';
-            $config['upload_path'] = $tImagePath;
-            $config['allowed_types'] = 'gif|jpg|png';
-            $config['encrypt_name'] = TRUE;
-//            $config['max_size'] = 100;
-//            $config['max_width'] = 1024;
-//            $config['max_height'] = 768;
-            $this->load->library('upload', $config);
+            $aConfig['upload_path'] = $tImagePath;
+            $aConfig['allowed_types'] = 'gif|jpg|png';
+            $aConfig['encrypt_name'] = TRUE;
+//            $aConfig['max_size'] = 100;
+//            $aConfig['max_width'] = 1024;
+//            $aConfig['max_height'] = 768;
+            $this->load->library('upload', $aConfig);
             if (!$this->upload->do_upload('oflProductImage')) {
                 $aData['error'] = array('error' => $this->upload->display_errors());
                 $this->load->view('products/wProductCreate', $aData);
             } else {
                 $aDataArray['FTPrdImage'] = $this->upload->data()['file_name'];
-                $config['image_library'] = 'gd2';
-                $config['source_image'] = $tImagePath . $aDataArray['FTPrdImage'];
-                $config['maintain_ratio'] = TRUE;
-                $config['width'] = 200;
-                $this->image_lib->initialize($config);
+                $aConfig['image_library'] = 'gd2';
+                $aConfig['source_image'] = $tImagePath . $aDataArray['FTPrdImage'];
+                $aConfig['maintain_ratio'] = TRUE;
+                $aConfig['width'] = 200;
+                $this->image_lib->initialize($aConfig);
                 if (!$this->image_lib->resize()) {
                     echo $this->image_lib->display_errors();
                 }
@@ -119,13 +118,13 @@ class Products_controller extends MX_Controller
                 'FDPrdUpdated_at' => date('Y-m-d H:i:s'),
             ];
             $tImagePath = 'application/modules/testproject/assets/img/';
-            $config['upload_path'] = $tImagePath;
-            $config['allowed_types'] = 'gif|jpg|png';
-            $config['encrypt_name'] = TRUE;
-//            $config['max_size'] = 100;
-//            $config['max_width'] = 1024;
-//            $config['max_height'] = 768;
-            $this->load->library('upload', $config);
+            $aConfig['upload_path'] = $tImagePath;
+            $aConfig['allowed_types'] = 'gif|jpg|png';
+            $aConfig['encrypt_name'] = TRUE;
+//            $aConfig['max_size'] = 100;
+//            $aConfig['max_width'] = 1024;
+//            $aConfig['max_height'] = 768;
+            $this->load->library('upload', $aConfig);
             if (!$this->upload->do_upload('oflProductImage')) {
                 $error = array('error' => $this->upload->display_errors());
                 $this->load->view('products/wProductEdit', $error);
@@ -139,11 +138,11 @@ class Products_controller extends MX_Controller
 
     public function FSxCPDTDeleteData($id)
     {
-        $product = $this->products_model->FSaMPDTGetProducts($id);
+        $aProduct = $this->products_model->FSaMPDTGetProducts($id);
         $this->products_model->FSbMPDTDeleteProducts($id);
         $tImagePath = 'assets/img/';
-        if(file_exists($tImagePath.$product['image'])){
-            unlink($tImagePath.$product['image']);
+        if(file_exists($tImagePath.$aProduct['image'])){
+            unlink($tImagePath.$aProduct['image']);
         }
         redirect('/products', 'refresh');
     }
@@ -153,7 +152,7 @@ class Products_controller extends MX_Controller
         header('Access-Control-Allow-Origin:' . base_url());
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
         $draw = intval($_POST['draw']);
-        $whereQuery = [
+        $aWhereQuery = [
             'category' => $this->input->post('searchCategory'),
             'dateStart' => $this->input->post('searchDateStart'),
             'dateEnd' => $this->input->post('searchDateEnd'),
@@ -165,31 +164,31 @@ class Products_controller extends MX_Controller
                 'dir' => $_POST['order'][0]['dir'],
             ],
         ];
-        $query = $this->products_model->FSoMPDTGetProductsList($whereQuery);
-        $data = [];
-        foreach ($query->result() as $r) {
-            $data[] = [
-                'id' => $r->FNPrdId,
-                'FTPrdCode' => $r->FTPrdCode,
-                'FTPrdName' => $r->FTPrdName,
-                'FCPrdPrice' => $r->FCPrdPrice,
-                'FTPrdDescription' => $r->FTPrdDescription,
-                'FTPrdImage' => '<img src="' . base_url('application/modules/testproject/assets/img/' . $r->FTPrdImage) . '" width="100" height="100" onerror="imgError(this);" />',
-                'FNCatName' => $r->FNCatName,
-                'FDPrdUpdated_at' => $r->FDPrdUpdated_at,
-                'actions' => '<a href="' . site_url('products/edit/' . $r->FNPrdId) . '" class="btn btn-primary btn-sm">Edit</a>
-                <a href="' . site_url('products/delete/' . $r->FNPrdId) . '" class="btn btn-danger btn-sm">Delete</a>'
+        $oQuery = $this->products_model->FSoMPDTGetProductsList($aWhereQuery);
+        $aData = [];
+        foreach ($oQuery->result() as $oResult) {
+            $aData[] = [
+                'id' => $oResult->FNPrdId,
+                'FTPrdCode' => $oResult->FTPrdCode,
+                'FTPrdName' => $oResult->FTPrdName,
+                'FCPrdPrice' => $oResult->FCPrdPrice,
+                'FTPrdDescription' => $oResult->FTPrdDescription,
+                'FTPrdImage' => '<img src="' . base_url('application/modules/testproject/assets/img/' . $oResult->FTPrdImage) . '" width="100" height="100" onerror="JSCNTPJimgError(this);" />',
+                'FNCatName' => $oResult->FNCatName,
+                'FDPrdUpdated_at' => $oResult->FDPrdUpdated_at,
+                'actions' => '<a href="' . site_url('products/edit/' . $oResult->FNPrdId) . '" class="btn btn-primary btn-sm">Edit</a>
+                <a href="' . site_url('products/delete/' . $oResult->FNPrdId) . '" class="btn btn-danger btn-sm">Delete</a>'
             ];
         }
-        $output = array(
+        $aOutput = array(
             "draw" => $draw,
-            "recordsTotal" => $query->num_rows(),
-            "recordsFiltered" => $this->products_model->FSoMPDTGetAllPorductsCount($whereQuery),
-            "data" => $data,
+            "recordsTotal" => $oQuery->num_rows(),
+            "recordsFiltered" => $this->products_model->FSoMPDTGetAllPorductsCount($aWhereQuery),
+            "data" => $aData,
         );
         return $this->output
             ->set_content_type('application/json')
             ->set_status_header(200)
-            ->set_output(json_encode($output));
+            ->set_output(json_encode($aOutput));
     }
 }

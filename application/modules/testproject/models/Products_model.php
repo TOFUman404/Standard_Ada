@@ -75,6 +75,22 @@ class Products_model extends CI_Model
         return $this->FSoMPDTGetProductsListQuery($pQuery)->get();
     }
 
+    public function FSaMPDTGetLastMonthHistory()
+    {
+        $tSql = "SELECT dates.date_series, SUM(COALESCE(products.count,0)) AS count_product
+                    FROM
+                    generate_series_last1month() as dates
+                    LEFT JOIN
+                    (
+                        SELECT CAST(TTPMProduct.FDPrdCreated_at AS DATE) AS date , COUNT(*) AS count
+                        FROM TTPMProduct
+                        group by TTPMProduct.FDPrdCreated_at) AS products
+                    ON dates.date_series = products.date
+                    GROUP BY dates.date_series
+                    ORDER BY dates.date_series";
+        return $this->db->query($tSql)->result_array();
+    }
+
     public function FSoMPDTGetAllPorductsCount($pQuery): int
     {
         $pQuery['length'] = -1;

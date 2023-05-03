@@ -95,6 +95,30 @@
         });
     }
 
+    function JSPDTRenderChart(data) {
+        let options = {
+            chart: {
+                type: 'line',
+                height: '100%',
+                toolbar: {
+                    show: false
+                }
+            },
+            series: [{
+                name: 'Created',
+                data: data.count_product
+            }],
+            xaxis: {
+                categories: data.date_series
+            }
+        }
+
+        let chart = new ApexCharts(document.querySelector("#odvChart"), options);
+        chart.render();
+    }
+
+
+
     let searchParams = {
         "searchInput": null,
         "searchCategory": null,
@@ -126,6 +150,23 @@
             })
             .catch(error => console.error(error))
         JSPDTRenderDatatable({});
+
+        fetch('<?= base_url('api/productsHistory') ?>')
+            .then(response => response.json())
+            .then(data => {
+                let newData = {
+                    "date_series": [],
+                    "count_product": []
+                };
+                data.forEach(item => {
+                    newData.date_series.push(item.date_series);
+                    newData.count_product.push(item.count_product);
+                })
+                // console.log(newData);
+                JSPDTRenderChart(newData);
+            })
+            .catch(error => console.error(error))
+
         $('#odpDatePick').daterangepicker({
             "locale": {
                 "format": "DD/MM/YYYY",

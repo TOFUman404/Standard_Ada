@@ -8,6 +8,7 @@ class Products_controller extends MX_Controller
         $this->load->model('category_model');
         $this->load->helper('url_helper');
     }
+
     public function FSxCPDTDataListview()
     {
         $tUserLng = $this->session->get_userdata('language');
@@ -40,21 +41,18 @@ class Products_controller extends MX_Controller
         $this->form_validation->set_rules('oetProductName', 'oetProductName', 'required');
         $this->form_validation->set_rules('oetProductPrice', 'oetProductPrice', 'required');
         $aData['categories'] = $this->category_model->FSaMCATGetCategory();
-        if ($this->form_validation->run() === FALSE)
-        {
+        if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/wHeader', $aData);
             $this->load->view('products/wProductCreate');
             $this->load->view('templates/wFooter');
-        }
-        else
-        {
+        } else {
             $aDataArray = [
                 'FTPrdCode' => $this->input->post_get('oetProductCode', true),
                 'FTPrdName' => $this->input->post_get('oetProductName', true),
                 'FCPrdPrice' => $this->input->post_get('oetProductPrice', true),
                 'FTPrdDescription' => $this->input->post_get('otaProductDesc', true) ?? '',
                 'FTPrdImage' => '',
-                'FNPrdCatId' => (int) $this->input->post_get('ocmProductCategory', true),
+                'FNPrdCatId' => (int)$this->input->post_get('ocmProductCategory', true),
                 'FDPrdCreated_at' => date('Y-m-d H:i:s'),
                 'FDPrdUpdated_at' => date('Y-m-d H:i:s'),
             ];
@@ -101,13 +99,11 @@ class Products_controller extends MX_Controller
         $this->form_validation->set_rules('oetProductName', 'oetProductName', 'required');
         $this->form_validation->set_rules('oetProductPrice', 'oetProductPrice', 'required');
 //        $this->form_validation->set_rules('otaProductDesc', 'otaProductDesc', 'required');
-        if ($this->form_validation->run() === FALSE)
-        {
+        if ($this->form_validation->run() === FALSE) {
             $this->load->view('templates/wHeader', $aData);
             $this->load->view('products/wProductEdit', $aData);
             $this->load->view('templates/wFooter');
-        }
-        else {
+        } else {
             $aDataArray = [
                 'FTPrdCode' => $this->input->post_get('oetProductCode', true) ?? $aData['product']['FTPrdCode'],
                 'FTPrdName' => $this->input->post_get('oetProductName', true) ?? $aData['product']['FTPrdName'],
@@ -141,10 +137,18 @@ class Products_controller extends MX_Controller
         $aProduct = $this->products_model->FSaMPDTGetProducts($id);
         $this->products_model->FSbMPDTDeleteProducts($id);
         $tImagePath = 'assets/img/';
-        if(file_exists($tImagePath.$aProduct['image'])){
-            unlink($tImagePath.$aProduct['image']);
+        if (file_exists($tImagePath . $aProduct['image'])) {
+            unlink($tImagePath . $aProduct['image']);
         }
         redirect('/products', 'refresh');
+    }
+
+    public function FStCPDTGetLastMonthHistory()
+    {
+        $aProductHistory = $this->products_model->FSaMPDTGetLastMonthHistory();
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($aProductHistory));
     }
 
     public function FStCPDTDataList()

@@ -3,6 +3,7 @@
 <script src="<?php echo base_url('application/modules/testproject/assets/js/bootstrap/bootstrap.bundle.js');?>"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
 <script src="<?php echo base_url('application/modules/testproject/assets/js/daterangepicker.js');?>"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
     function JSxPDTLevelColor(level) {
         if(level <= 50) {

@@ -1,4 +1,11 @@
 <div class="card mt-5">
+    <div class="card-body">
+        <div id="odvChart" style="max-height: 200px;">
+        </div>
+    </div>
+</div>
+
+<div class="card mt-5">
     <div class="card-header">
         <div class="d-flex align-items-center pt-2 pb-2">
             <div class="d-flex align-items-center">
